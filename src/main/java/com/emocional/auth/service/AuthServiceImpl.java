@@ -50,7 +50,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * Autentica al usuario y genera un token JWT.
+     * Autentica  usuario y genera un token JWT.
      */
     @Override
     public AuthResponse login(LoginRequest request) {
