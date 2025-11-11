@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
- * Servicio requerido por Spring Security para cargar  detalles del usuario durante el login.
+ * Servicio requerido por Spring Security para cargar los detalles del usuario durante el login.
  */
 @Service
 @RequiredArgsConstructor
