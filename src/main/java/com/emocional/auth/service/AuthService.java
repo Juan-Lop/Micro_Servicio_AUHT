@@ -20,11 +20,5 @@ public interface AuthService {
      * @param request DTO con el email y password.
      * @return El token JWT generado.
      */
-
-    /**
-     * Inicia sesión de un usuario.
-     * @param request DTO con el email y password.
-     * 
-     */
     AuthResponse login(LoginRequest request);
 }
