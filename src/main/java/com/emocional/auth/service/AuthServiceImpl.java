@@ -62,7 +62,7 @@ public class AuthServiceImpl implements AuthService {
                 )
         );
 
-        // 2. Si la autenticación es exitosa, recuperar el objeto User para generar el token.
+        // 2. Si la autenticación  exitosa, recuperar el objeto User para generar el token.
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
