@@ -111,7 +111,7 @@ public class SecurityConfig {
         		"http://localhost:5174",
         		"http://localhost:3000",
         		"http://localhost:8081",
-        		"https://front-end-project-diario.vercel.app",
+        		"https://front-end-proyect-diario.vercel.app",
         		"https://front-end-proyect-diario-djc3xwxo3-juan-lops-projects.vercel.app"
         		));
         
