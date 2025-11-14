@@ -2,8 +2,11 @@ package com.emocional.auth.config;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,10 +36,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-	
+
 	private final UserDetailsService userDetailsService; // CustomUserDetailsService
 
-	
+	@Value("${ALLOWED_ORIGINS:}")
+	private String allowedOrigins;
+
 	@Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -100,24 +105,32 @@ public class SecurityConfig {
     /**
      * Define la fuente de configuración de CORS.
      * Retorna CorsConfigurationSource para que Spring Security la use directamente.
+     * Las URLs permitidas se leen desde la variable de entorno ALLOWED_ORIGINS (separadas por comas)
      */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        
-     // FIX CLAVE: Especificar el origen del frontend.
-        configuration.setAllowedOrigins(Arrays.asList(
-        		"http://localhost:5173",
-        		"http://localhost:5174",
-        		"http://localhost:3000",
-        		"http://localhost:8081",
-        		"https://front-end-proyect-diario.vercel.app",
-        		"https://front-end-proyect-diario-djc3xwxo3-juan-lops-projects.vercel.app"
-        		));
-        
-        
-        
-//        configuration.addAllowedOrigin("*");
+
+        // Orígenes locales para desarrollo
+        List<String> origins = new ArrayList<>(Arrays.asList(
+            "http://localhost:5173",
+            "http://localhost:5174",
+            "http://localhost:3000",
+            "http://localhost:8081"
+        ));
+
+        // Agregar orígenes desde variable de entorno (separados por coma)
+        if (allowedOrigins != null && !allowedOrigins.trim().isEmpty()) {
+            String[] envOrigins = allowedOrigins.split(",");
+            for (String origin : envOrigins) {
+                String trimmedOrigin = origin.trim();
+                if (!trimmedOrigin.isEmpty()) {
+                    origins.add(trimmedOrigin);
+                }
+            }
+        }
+
+        configuration.setAllowedOrigins(origins);
         // Define métodos permitidos
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
 
