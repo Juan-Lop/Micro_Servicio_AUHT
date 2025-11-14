@@ -110,17 +110,21 @@ public class SecurityConfig {
         		"http://localhost:5173",
         		"http://localhost:5174",
         		"http://localhost:3000",
-        		"http://localhost:8081"
+        		"http://localhost:8081",
+        		"https://front-end-proyect-diario-djc3xwxo3-juan-lops-projects.vercel.app"
         		));
         
         
         
 //        configuration.addAllowedOrigin("*");
         // Define métodos permitidos
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+
         // Define encabezados permitidos (CRUCIAL para 'Authorization')
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+
+        // Exponer headers que el frontend puede leer
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
         
         // Es importante establecer esto como true si se van a usar cookies o encabezados Authorization
         configuration.setAllowCredentials(true); 
