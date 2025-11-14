@@ -1,0 +1,64 @@
+services:
+  # Servicio de autenticación
+  - type: web
+    name: auth-service
+    env: docker
+    region: oregon # Puedes cambiar la región según tus necesidades
+    plan: starter # Opciones: starter, standard, pro
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+
+    # Health check
+    healthCheckPath: /actuator/health
+
+    # Variables de entorno
+    envVars:
+      # Puerto del servicio
+      - key: SERVER_PORT
+        value: 8081
+
+      # Configuración de Base de Datos PostgreSQL
+      # Estas variables deben configurarse en el dashboard de Render
+      # o conectarse a una base de datos PostgreSQL de Render
+      - key: DB_HOST
+        sync: false # Se debe configurar manualmente
+
+      - key: DB_PORT
+        value: 5432
+
+      - key: DB_NAME
+        sync: false # Se debe configurar manualmente
+
+      - key: DB_USERNAME
+        sync: false # Se debe configurar manualmente
+
+      - key: DB_PASSWORD
+        sync: false # Se debe configurar manualmente (usar secreto)
+
+      # JWT Secret Key
+      # IMPORTANTE: Cambiar esto por un secreto real en producción
+      - key: JWT_SECRET_KEY
+        sync: false # Se debe configurar manualmente como secreto
+
+      # Configuración de JPA
+      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+        value: update
+
+      - key: SPRING_JPA_SHOW_SQL
+        value: false # false en producción
+
+      # Java Options
+      - key: JAVA_OPTS
+        value: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -XX:InitialRAMPercentage=50.0"
+
+# Base de datos PostgreSQL (opcional - si quieres crear una DB en Render)
+databases:
+  - name: auth-db
+    databaseName: auth_db
+    user: auth_user
+    plan: starter # Opciones: starter, standard, pro
+    region: oregon
+
+    # Esta base de datos será automáticamente accesible desde el servicio
+    # Las variables de entorno se generarán automáticamente:
+    # DATABASE_URL, DB_HOST, DB_PORT, DB_NAME, DB_USERNAME, DB_PASSWORD
